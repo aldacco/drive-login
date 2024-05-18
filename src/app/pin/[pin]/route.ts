@@ -11,7 +11,6 @@ export async function GET(req: NextRequest, { params: { pin } }: { params: { pin
         })
     }
 
-
     const [, authBasis] = auth?.split(" ")
 
     const { password } = decodeCredentials(authBasis)
@@ -30,8 +29,5 @@ export async function GET(req: NextRequest, { params: { pin } }: { params: { pin
         return NextResponse.json(userData.token)
     }
 
-    return NextResponse.json({
-        ex: ttl,
-        pin
-    })
+    return NextResponse.json({})
 }
