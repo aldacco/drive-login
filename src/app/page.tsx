@@ -16,6 +16,8 @@ export default function Home() {
   const [status, setStatus] = useState<string>(FETCH_STATUS.IDLE)
 
   const [pin, setPin] = useState<string>("")
+  const [clientId, setClientId] = useState<string>("")
+  const [clientSecret, setClientSecret] = useState<string>("")
 
   const handleAuth = async (e: FormEvent) => {
     e.preventDefault()
@@ -27,7 +29,7 @@ export default function Home() {
       setStatus(FETCH_STATUS.ERROR)
       return
     }
-    const url = getGoogleAuthUrl(pin)
+    const url = getGoogleAuthUrl(pin, clientId, clientSecret)
     router.push(url)
   }
 
@@ -39,7 +41,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center gap-10 p-24">
       <h1 className="text-4xl font-medium">Authenticate Your Kodi</h1>
       <form onSubmit={handleAuth}>
-        <div className="flex gap-2">
+        <div className="grid   gap-2">
           <input
             className="h-12 rounded px-4 border text-xl"
             placeholder="PIN"
@@ -48,9 +50,25 @@ export default function Home() {
               setPin(e.target.value)
             }}
           />
+          <input
+            className="h-12 rounded px-4 border text-xl"
+            placeholder="Client ID"
+            onChange={(e) => {
+              setStatus(FETCH_STATUS.IDLE)
+              setClientId(e.target.value)
+            }}
+          />
+          <input
+            className="h-12 rounded px-4 border text-xl"
+            placeholder="Client Secret"
+            onChange={(e) => {
+              setStatus(FETCH_STATUS.IDLE)
+              setClientSecret(e.target.value)
+            }}
+          />
 
           <button
-            className="flex items-center h-12 p-4 bg-[#29B6F6] rounded disabled:bg-gray-200"
+            className="flex items-center justify-center h-12 p-4 bg-[#29B6F6] rounded disabled:bg-gray-200"
             type="submit"
             disabled={isLoading}
           >

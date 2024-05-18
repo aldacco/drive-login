@@ -6,13 +6,13 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest, response: NextResponse) {
     const { searchParams } = new URL(request.url)
     const code = searchParams.get("code") as string
-    const pin = searchParams.get("state") as string
+    const [pin, clientId, clientSecret] = searchParams.get("state")?.split("|") as string[]
     const scope = searchParams.get("scope") as string
 
     const { data: token } = await axios.post<Token>("https://oauth2.googleapis.com/token", {
-        client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+        client_id: clientId,
         redirect_uri: `${process.env.NEXT_PUBLIC_CLIENT_URL}/callback`,
-        client_secret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
+        client_secret: clientSecret,
         grant_type: "authorization_code",
         code,
         scope,
