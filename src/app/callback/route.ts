@@ -10,9 +10,9 @@ export async function GET(request: NextRequest, response: NextResponse) {
     const scope = searchParams.get("scope") as string
 
     const { data: token } = await axios.post<Token>("https://oauth2.googleapis.com/token", {
-        client_id: clientId,
+        client_id: clientId ?? process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
         redirect_uri: `${process.env.NEXT_PUBLIC_CLIENT_URL}/callback`,
-        client_secret: clientSecret,
+        client_secret: clientSecret ?? process.env.GOOGLE_CLIENT_SECRET as string,
         grant_type: "authorization_code",
         code,
         scope,
