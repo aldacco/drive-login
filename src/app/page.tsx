@@ -14,6 +14,7 @@ const FETCH_STATUS = {
 export default function Home() {
   const router = useRouter()
   const [status, setStatus] = useState<string>(FETCH_STATUS.IDLE)
+  const [showAdvance, setShowAdvance] = useState<boolean>(false)
 
   const [pin, setPin] = useState<string>("")
   const [clientId, setClientId] = useState<string>("")
@@ -29,14 +30,13 @@ export default function Home() {
       setStatus(FETCH_STATUS.ERROR)
       return
     }
-    const url = getGoogleAuthUrl(pin, clientId, clientSecret)
+    const url = showAdvance ? getGoogleAuthUrl(pin, clientId, clientSecret) : getGoogleAuthUrl(pin)
     router.push(url)
   }
 
   const isIdle = status === FETCH_STATUS.IDLE
   const isLoading = status === FETCH_STATUS.LOADING
   const isError = status === FETCH_STATUS.ERROR
-  const [showAdvance, setShowAdvance] = useState<boolean>(false)
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-10 p-24">
