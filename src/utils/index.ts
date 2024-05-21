@@ -25,3 +25,11 @@ export function decodeCredentials(credentials: string) {
     const [owner, password] = decoded.split(':');
     return { owner, password };
 }
+
+export function formDataToJson(formData: FormData): { [key: string]: string } {
+    const jsonObject: { [key: string]: string } = {};
+    formData.forEach((value, key) => {
+        jsonObject[key] = value as string;
+    });
+    return jsonObject;
+}

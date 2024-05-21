@@ -1,10 +1,10 @@
-import { encodeCredentials, generatePassword, generatePin } from "@/utils";
+import { encodeCredentials, formDataToJson, generatePassword, generatePin } from "@/utils";
 import RedisClient from "@/utils/redis";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const searchParams = req.nextUrl.searchParams
-    const provider = "googledrive"
+    const body = await req.formData()
+    const { provider } = formDataToJson(body)
 
     const owner = req.ip ?? "127.0.0.1"
     const password = generatePassword(128)

@@ -1,11 +1,11 @@
 import { Token } from "@/type";
+import { formDataToJson } from "@/utils";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-    const { searchParams } = new URL(request.url)
-    const provider = searchParams.get("provider") as string
-    const refreshToken = searchParams.get("refresh_token") as string
+    const body = await request.formData()
+    const { refresh_token: refreshToken, provider } = formDataToJson(body)
 
     const { data: token } = await axios.post<Token>("https://oauth2.googleapis.com/token", {
         client_id: process.env.NEXT_PUBLIC_CLIENT_ID as string,
