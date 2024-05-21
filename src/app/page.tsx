@@ -57,33 +57,7 @@ export default function Home() {
                 isError && "Invalid PIN"
               }
             </span>
-            <span
-              onClick={() => setShowAdvance(!showAdvance)}
-              className="text-sm text-gray-500 px-4 cursor-pointer"
-            >
-              Advance options
-            </span>
           </div>
-          {showAdvance && (
-            <div className="grid gap-1">
-              <input
-                className="h-12 rounded px-4 border text-xl"
-                placeholder="Client ID"
-                onChange={(e) => {
-                  setStatus(FETCH_STATUS.IDLE)
-                  setClientId(e.target.value)
-                }}
-              />
-              <input
-                className="h-12 rounded px-4 border text-xl"
-                placeholder="Client Secret"
-                onChange={(e) => {
-                  setStatus(FETCH_STATUS.IDLE)
-                  setClientSecret(e.target.value)
-                }}
-              />
-            </div>
-          )}
           <button
             className="flex items-center justify-center h-12 p-4 bg-[#29B6F6] rounded disabled:bg-gray-200"
             type="submit"
