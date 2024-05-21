@@ -14,9 +14,8 @@ export async function GET(req: NextRequest, { params: { pin } }: { params: { pin
     const [, authBasis] = auth?.split(" ")
 
     const { password } = decodeCredentials(authBasis)
-
-    const ttl = await RedisClient.ttl(pin);
-    const stringUserData = await RedisClient.get(pin) as string
+    const ttl = await RedisClient.ttl(pin.toLocaleLowerCase());
+    const stringUserData = await RedisClient.get(pin.toLocaleLowerCase()) as string
     const userData = JSON.parse(stringUserData) as UserData
 
     if (userData.password !== password) {
