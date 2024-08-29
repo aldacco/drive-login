@@ -114,7 +114,7 @@ To deploy your own instance and avoid the unverified application warnings, confi
     NEXT_PUBLIC_CLIENT_ID=your_client_id
     NEXT_PUBLIC_CLIENT_SECRET=your_client_secret
     NEXT_PUBLIC_CLIENT_URL=http://localhost:3000
-    NEXT_PUBLIC_REDIS_CONNECTION=your_redis_connection
+    NEXT_PUBLIC_REDIS_CONNECTION=rediss://default:{token}@{endpoint}:{port}
     ```
 
 4. **Run the Application**:
