@@ -23,7 +23,7 @@ You need to configure the following environment variables in Vercel. This can be
   - **Example**: `NEXT_PUBLIC_CLIENT_SECRET='your-client-secret'`
 
 - `NEXT_PUBLIC_CLIENT_URL`: The base URL of your application, typically the URL provided by Vercel after deployment.
-  - **Example**: `NEXT_PUBLIC_CLIENT_URL='https://yourapp.vercel.app'`
+  - **Example**: `NEXT_PUBLIC_CLIENT_URL='https://your-app.example.vercel.app'`
 
 - `NEXT_PUBLIC_REDIS_CONNECTION`: The connection string to your Upstash Redis instance. You can obtain this connection string from your Upstash dashboard after setting up your Redis database.
   - **Example**: `NEXT_PUBLIC_REDIS_CONNECTION='redis://default:<password>@<your-upstash-url>:<port>'`
@@ -55,7 +55,7 @@ To deploy your Next.js application on Vercel, follow these steps:
 4. **Deploy Your Application**:
    - Click "Deploy" to start the deployment process.
    - Vercel will begin building and deploying your application.
-   - Once the deployment is complete, you will get a URL (such as `https://yourapp.vercel.app`) which will be your production base URL.
+   - Once the deployment is complete, you will get a URL (such as `https://your-app.example.vercel.app`) which will be your production base URL.
       Complete the Kodi Setup
 5. **Install Google Drive Add-on**:
     - Open Kodi.
@@ -68,7 +68,7 @@ To deploy your Next.js application on Vercel, follow these steps:
     - Open Kodi and go to `Add-ons` > `My add-ons` > `Video add-ons` > `Google Drive`.
     - Click on `Configure`.
     - In the `Advanced` tab, find the `Source` property.
-    - Change the `Source` URL to: `https://yourapp.vercel.app`.
+    - Change the `Source` URL to: `https://your-app.example.vercel.app`.
     - Save the changes.
 
 2. **Enable Google APIs**:
@@ -83,7 +83,7 @@ To deploy your Next.js application on Vercel, follow these steps:
     - In the Google Cloud Console, go to `APIs & Services` > `Credentials`.
     - Click on `Create Credentials` and select `OAuth 2.0 Client IDs`.
     - Configure the consent screen and set up your OAuth 2.0 Client ID.
-    - Make sure to add `https://yourapp.vercel.app/callback` as an authorized redirect URI.
+    - Make sure to add `https://your-app.example.vercel.app/callback` as an authorized redirect URI.
     - Note down the `Client ID` and `Client Secret`.
 
 4. **Add Your Google Account**:
@@ -91,7 +91,7 @@ To deploy your Next.js application on Vercel, follow these steps:
     - A PIN will be generated. Note this PIN.
 
 5. **Authenticate via Our Application**:
-    - Open a web browser and go to `https://yourapp.vercel.app`.
+    - Open a web browser and go to `https://your-app.example.vercel.app`.
     - Enter the generated PIN
     - Follow the Google authentication steps to grant access to your Google Drive.
 
