@@ -26,7 +26,9 @@ You need to configure the following environment variables in Vercel. This can be
   - **Example**: `NEXT_PUBLIC_CLIENT_URL='https://your-app.example.vercel.app'`
 
 - `NEXT_PUBLIC_REDIS_CONNECTION`: The connection string to your Upstash Redis instance. You can obtain this connection string from your Upstash dashboard after setting up your Redis database.
-  - **Example**: `NEXT_PUBLIC_REDIS_CONNECTION='redis://default:<password>@<your-upstash-url>:<port>'`
+  - **Important**: **You must use `rediss://` instead of `redis://` to ensure the connection is secured with SSL/TLS.** This ensures that data transmitted between your application and Redis is encrypted, protecting against attacks and maintaining the integrity of the information.
+  - **Correct Example**: `NEXT_PUBLIC_REDIS_CONNECTION='rediss://default:<password>@<your-upstash-url>:<port>'`
+
 
 ### 2. Set Up Upstash Redis
 
@@ -34,7 +36,7 @@ You need to configure the following environment variables in Vercel. This can be
 
 2. **Create a Redis Database**:
    - Once logged in, navigate to the dashboard and create a new Redis database.
-   - Copy the connection string provided by Upstash; it will look something like this: `redis://default:<password>@<upstash-url>:<port>`.
+   - Copy the connection string provided by Upstash; it will look something like this: `rediss://default:<password>@<your-upstash-url>:<port>`.
    - Use this connection string as the value for the `NEXT_PUBLIC_REDIS_CONNECTION` environment variable in Vercel.
 
 ### 3. Deploy on Vercel
