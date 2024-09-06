@@ -1,6 +1,22 @@
-"use client"
+"use client";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { getGoogleAuthUrl } from "@/utils/auth";
 import axios from "axios";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
@@ -9,67 +25,109 @@ const FETCH_STATUS = {
   LOADING: "loading",
   SUCCESS: "success",
   ERROR: "error",
-}
+};
 
 export default function Home() {
-  const router = useRouter()
-  const [status, setStatus] = useState<string>(FETCH_STATUS.IDLE)
-  const [showAdvance, setShowAdvance] = useState<boolean>(false)
+  const router = useRouter();
+  const [status, setStatus] = useState<string>(FETCH_STATUS.IDLE);
 
-  const [pin, setPin] = useState<string>("")
-  const [clientId, setClientId] = useState<string>("")
-  const [clientSecret, setClientSecret] = useState<string>("")
+  const [pin, setPin] = useState<string>("");
 
   const handleAuth = async (e: FormEvent) => {
-    e.preventDefault()
-    setStatus(FETCH_STATUS.LOADING)
+    e.preventDefault();
+    setStatus(FETCH_STATUS.LOADING);
 
     try {
-      await axios.get(`/authorize?pin=${pin}`)
+      await axios.get(`/authorize?pin=${pin}`);
     } catch (e) {
-      setStatus(FETCH_STATUS.ERROR)
-      return
+      console.log(e);
+      setStatus(FETCH_STATUS.ERROR);
+      return;
     }
-    const url = showAdvance ? getGoogleAuthUrl(pin, clientId, clientSecret) : getGoogleAuthUrl(pin)
-    router.push(url)
-  }
+    const url = getGoogleAuthUrl(pin);
+    router.push(url);
+  };
 
-  const isIdle = status === FETCH_STATUS.IDLE
-  const isLoading = status === FETCH_STATUS.LOADING
-  const isError = status === FETCH_STATUS.ERROR
+  const isIdle = status === FETCH_STATUS.IDLE;
+  const isLoading = status === FETCH_STATUS.LOADING;
+  const isError = status === FETCH_STATUS.ERROR;
 
   return (
-    <main className="flex min-h-screen flex-col items-center gap-10 p-24">
-      <h1 className="text-4xl font-medium">Authenticate Your Kodi</h1>
-      <form onSubmit={handleAuth}>
-        <div className="grid gap-4">
-          <div className="grid gap-1">
-            <input
-              className="h-12 rounded px-4 border text-xl"
-              placeholder="PIN"
-              onChange={(e) => {
-                setStatus(FETCH_STATUS.IDLE)
-                setPin(e.target.value)
-              }}
-            />
-            <span className="font-bold text-sm text-red-500 px-4">
-              {
-                isError && "Invalid PIN"
-              }
+    <main className="flex min-h-screen justify-center items-center gap-10 p-2">
+      <Card className="w-full max-w-md bg-muted/50 shadow-xl border-none rounded-md sm:p-6 ">
+        <CardHeader>
+          <CardTitle className="text-center relative">
+            <span className="text-[#353132] font-bold text-3xl tracking-tighter leading-none pr-2">
+              Kodi Sync
             </span>
-          </div>
-          <button
-            className="flex items-center justify-center h-12 p-4 bg-[#29B6F6] rounded disabled:bg-gray-200"
-            type="submit"
-            disabled={isLoading}
-          >
-            <span className="text-white">
-              GO
-            </span>
-          </button>
-        </div>
-
-      </form>
+            <Badge className="absolute align-text-top">v1.0.0</Badge>
+          </CardTitle>
+        </CardHeader>
+        <form onSubmit={handleAuth}>
+          <CardContent className="grid gap-8">
+            <CardDescription className="text-center grid">
+              <span className="text-[#353132] font-bold text-xl tracking-tighter leading-none">
+                Activate your Kodi
+              </span>
+              <span>Enter the PIN shown on your Kodi device.</span>
+            </CardDescription>
+            <div>
+              {isError && (
+                <span className="text-center text-destructive text-sm">
+                  Invalid PIN. Please try again.
+                </span>
+              )}
+              <InputOTP
+                className="w-full"
+                maxLength={6}
+                pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                onChange={(value) => {
+                  setStatus(FETCH_STATUS.IDLE);
+                  setPin(value);
+                }}
+              >
+                <InputOTPGroup className="font-bold w-full">
+                  <InputOTPSlot
+                    className="text-xl w-1/6 h-14 bg-white"
+                    index={0}
+                  />
+                  <InputOTPSlot
+                    className="text-xl w-1/6 h-14 bg-white"
+                    index={1}
+                  />
+                  <InputOTPSlot
+                    className="text-xl w-1/6 h-14 bg-white"
+                    index={2}
+                  />
+                  <InputOTPSlot
+                    className="text-xl w-1/6 h-14 bg-white"
+                    index={3}
+                  />
+                  <InputOTPSlot
+                    className="text-xl w-1/6 h-14 bg-white"
+                    index={4}
+                  />
+                  <InputOTPSlot
+                    className="text-xl w-1/6 h-14 bg-white"
+                    index={5}
+                  />
+                </InputOTPGroup>
+              </InputOTP>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="h-14 w-full"
+              size="lg"
+              disabled={isLoading || !pin}
+            >
+              <span className="text-lg font-bold ">
+                {isLoading ? "Activating..." : "Activate Kodi"}
+              </span>
+            </Button>
+          </CardFooter>
+        </form>
+      </Card>
     </main>
   );
 }
