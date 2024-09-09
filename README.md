@@ -22,9 +22,6 @@ You need to configure the following environment variables in Vercel. This can be
 - `NEXT_PUBLIC_CLIENT_SECRET`: The client secret provided by your authentication provider.
   - **Example**: `NEXT_PUBLIC_CLIENT_SECRET='your-client-secret'`
 
-- `NEXT_PUBLIC_CLIENT_URL`: The base URL of your application, typically the URL provided by Vercel after deployment.
-  - **Example**: `NEXT_PUBLIC_CLIENT_URL='https://your-app.example.vercel.app'`
-
 - `NEXT_PUBLIC_REDIS_CONNECTION`: The connection string to your Upstash Redis instance. You can obtain this connection string from your Upstash dashboard after setting up your Redis database.
   - **Important**: **You must use `rediss://` instead of `redis://` to ensure the connection is secured with SSL/TLS.** This ensures that data transmitted between your application and Redis is encrypted, protecting against attacks and maintaining the integrity of the information.
   - **Correct Example**: `NEXT_PUBLIC_REDIS_CONNECTION='rediss://default:<password>@<your-upstash-url>:<port>'`

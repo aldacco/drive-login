@@ -45,7 +45,11 @@ export default function Home() {
       setStatus(FETCH_STATUS.ERROR);
       return;
     }
-    const url = getGoogleAuthUrl(pin);
+
+    const redirectUri = `${location.origin}/callback`
+    console.log(redirectUri)
+
+    const url = getGoogleAuthUrl(pin, redirectUri);
     router.push(url);
   };
 
