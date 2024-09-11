@@ -87,6 +87,7 @@ export default function Home() {
                   className="w-full"
                   maxLength={6}
                   pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                  inputMode="text"
                   onChange={(value) => {
                     setStatus(FETCH_STATUS.IDLE);
                     setPin(value);
