@@ -64,7 +64,7 @@ export default function Home() {
               <span className="text-[#353132] font-bold text-3xl tracking-tighter leading-none pr-2">
                 Kodi Sync
               </span>
-              <Badge className="absolute align-text-top">v1.0.0</Badge>
+              <Badge className="absolute align-text-top">v2.0.0</Badge>
             </CardTitle>
           </CardHeader>
           <form onSubmit={handleAuth}>
