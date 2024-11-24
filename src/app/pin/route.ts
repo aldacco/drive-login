@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     owner,
   };
 
-  cacheInstance.set(pin, data, 60);
+  cacheInstance.set(pin, data, 120);
 
   return Response.json(data);
 }
