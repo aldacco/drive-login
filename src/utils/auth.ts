@@ -1,4 +1,6 @@
-export function getGoogleAuthUrl(
+"use server";
+
+export async function getGoogleAuthUrl(
   pin: string,
   redirectUri: string,
   clientId?: string,

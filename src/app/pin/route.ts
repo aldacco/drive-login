@@ -32,8 +32,5 @@ export async function POST(req: NextRequest) {
 
   cacheInstance.set(pin, data, 60);
 
-  console.log("POST PIN");
-  console.log("DATA", data);
-
   return Response.json(data);
 }
