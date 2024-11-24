@@ -1,32 +1,40 @@
 import { UserData } from "@/type";
 import { decodeCredentials } from "@/utils";
-import RedisClient from "@/utils/redis";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params: { pin } }: { params: { pin: string } }) {
-    const auth = req.headers.get("authorization")
-    if (!auth) {
-        return Response.json('', {
-            status: 404
-        })
-    }
+export async function GET(
+  req: NextRequest,
+  { params: { pin } }: { params: { pin: string } }
+) {
+  const userData = cacheInstance.get<UserData>(pin.toLocaleLowerCase());
 
-    const [, authBasis] = auth?.split(" ")
+  if (!userData) {
+    return NextResponse.json("Message: Token Expired", {
+      status: 404,
+    });
+  }
 
-    const { password } = decodeCredentials(authBasis)
-    const ttl = await RedisClient.ttl(pin.toLocaleLowerCase());
-    const stringUserData = await RedisClient.get(pin.toLocaleLowerCase()) as string
-    const userData = JSON.parse(stringUserData) as UserData
+  const auth = req.headers.get("authorization");
 
-    if (userData.password !== password) {
-        return Response.json('', {
-            status: 403
-        })
-    }
+  if (!auth) {
+    return Response.json("", {
+      status: 404,
+    });
+  }
 
-    if (userData.token) {
-        return NextResponse.json(userData.token)
-    }
+  const [, authBasis] = auth?.split(" ");
+  const { password } = decodeCredentials(authBasis);
 
-    return NextResponse.json({})
+  if (userData.password !== password) {
+    return Response.json("", {
+      status: 403,
+    });
+  }
+
+  if (!userData.token) {
+    return Response.json(null);
+  }
+
+  cacheInstance.del(pin.toLocaleLowerCase());
+  return NextResponse.json(userData.token);
 }

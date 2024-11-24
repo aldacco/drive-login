@@ -41,15 +41,13 @@ export default function Home() {
     try {
       await axios.get(`/authorize?pin=${pin}`);
     } catch (e) {
-      console.log(e);
       setStatus(FETCH_STATUS.ERROR);
       return;
     }
 
-    const redirectUri = `${location.origin}/callback`
-    console.log(redirectUri)
+    const redirectUri = `${location.origin}/callback`;
 
-    const url = getGoogleAuthUrl(pin, redirectUri);
+    const url = await getGoogleAuthUrl(pin, redirectUri);
     router.push(url);
   };
 

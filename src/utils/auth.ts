@@ -1,4 +1,6 @@
-export function getGoogleAuthUrl(
+"use server";
+
+export async function getGoogleAuthUrl(
   pin: string,
   redirectUri: string,
   clientId?: string,
@@ -9,7 +11,7 @@ export function getGoogleAuthUrl(
 
   params.append(
     "client_id",
-    clientId ?? (process.env.NEXT_PUBLIC_CLIENT_ID as string)
+    clientId ?? (process.env.GOOGLE_CLIENT_ID as string)
   );
   params.append("redirect_uri", redirectUri);
   params.append("state", state);

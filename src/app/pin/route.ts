@@ -1,31 +1,36 @@
-import { encodeCredentials, formDataToJson, generatePassword, generatePin } from "@/utils";
-import RedisClient from "@/utils/redis";
+import { getIp } from "@/lib/get-ip";
+import {
+  encodeCredentials,
+  formDataToJson,
+  generatePassword,
+  generatePin,
+} from "@/utils";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const body = await req.formData()
-    const { provider } = formDataToJson(body)
+  const body = await req.formData();
+  const { provider } = formDataToJson(body);
 
-    const owner = req.ip ?? "127.0.0.1"
-    const password = generatePassword(128)
+  const owner = getIp() ?? "127.0.0.1";
 
-    let pin = ''
-    let pinExists = 1
+  const password = generatePassword(128);
 
-    while (pinExists) {
-        pin = generatePin()
-        pinExists = await RedisClient.exists(pin)
-    }
+  let pin = "";
+  let pinExists = 1;
 
-    const data = {
-        pin,
-        password: encodeCredentials(owner, password),
-        provider,
-        owner,
-    }
+  while (pinExists) {
+    pin = generatePin();
+    pinExists = Number(cacheInstance.has(pin));
+  }
 
-    await RedisClient.set(pin, JSON.stringify(data), 'EX', 120);
+  const data = {
+    pin,
+    password: encodeCredentials(owner, password),
+    provider,
+    owner,
+  };
 
-    return Response.json(data)
+  cacheInstance.set(pin, data, 60);
+
+  return Response.json(data);
 }
-
