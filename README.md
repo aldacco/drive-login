@@ -2,34 +2,35 @@
 
 This guide will help you set up the connection between Google Drive and Kodi using our Next.js application.
 
+## **What's New?**
+
+🚀 **Redis is no longer required!**  
+In this updated version of the application, we have simplified deployment by removing the dependency on Redis. You no longer need to configure external caching services or maintain a Redis instance. This change makes it easier than ever to deploy your own instance with minimal configuration.
+
+🔄 **Updated Environment Variable Names**  
+As part of this update, we have also updated the names of some environment variables to streamline the configuration process. Be sure to check the new variable names in the documentation or the `.env.example` file to avoid any issues during deployment.
+
+These changes reduce complexity and improve the overall experience of setting up and using the application.
+
+
+## Important Notice
+
+### **Redis Requirement Removed in v2**
+Starting with **v2**, Redis is no longer required for the application to function. The new version (v2) uses an in-memory cache for temporary data, which simplifies the deployment process. If you're using **v1** and still need Redis, please follow the instructions for that version.
+
+- **v1 (Legacy)**: Redis **is required**. Please follow the instructions below to set up Redis.
+- **v2 (Current)**: Redis **is no longer required**. Skip Redis setup in this version.
+
+
 ## Prerequisites
 
 - **Kodi Installed**: Ensure you have Kodi installed on your device.
 - **Google Drive Add-on**: The Google Drive add-on must be installed from the Kodi add-on repository.
 
-## Warning
-
-**Important**: This application is not verified by Google, which means there will be additional steps during the authentication process. See the "Deploy Your Own Instance" section for more details on configuring environment variables and deploying your service.
 
 ## Deploy Your Own Instance
 
-### 1. Set Up Upstash Redis
-
-- **Create an Upstash Account**: Go to Upstash and create an account.
-- **Create a Redis Database**:
-  - Once logged in, navigate to the dashboard and create a new Redis database.
-  - Copy the connection string provided by Upstash; it will look something like this: `rediss://default:<password>@<your-upstash-url>:<port>`.
-  - Use this connection string as the value for the `NEXT_PUBLIC_REDIS_CONNECTION` environment variable in Vercel.
-  
-> [!WARNING]  
-> **Important**: **You must use `rediss://` instead of `redis://` to ensure the connection is secured with SSL/TLS.**
-> This ensures that data transmitted between your application and Redis is encrypted, protecting against attacks and maintaining the integrity of the information.
-> 
-> **Correct Example**: `NEXT_PUBLIC_REDIS_CONNECTION='rediss://default:<password>@<your-upstash-url>:<port>'`
-  
-https://github.com/user-attachments/assets/38eebc0d-3036-4edb-9b4a-febca1a6ff84
-
-### 2. Deploy on Vercel
+### 1. Deploy on Vercel
 
 Deploy a basic version of your Next.js application on Vercel to obtain your application's URL.
 
@@ -38,16 +39,14 @@ Deploy a basic version of your Next.js application on Vercel to obtain your appl
   - Click on "New Project".
   - Select your repository and click "Import".
   - Vercel will automatically detect your Next.js application and set it up correctly.
-- **Configure Temporary Environment Variables**:
-  - Temporarily add the necessary environment variables except for Google credentials.
-  - Example: Only set up `NEXT_PUBLIC_REDIS_CONNECTION`.
+
 - **Deploy Your Application**:
   - Click "Deploy" to start the deployment process.
   - Once the deployment is complete, note the URL of your application (e.g., `https://your-app.example.vercel.app`).
 
 https://github.com/user-attachments/assets/e45f0a48-a3b3-4333-8167-c7db699102e6
 
-### 3. Enable Google APIs and Create OAuth 2.0 Credentials
+### 2. Enable Google APIs and Create OAuth 2.0 Credentials
 
 - **Create OAuth 2.0 Credentials**:
   - In the Google Cloud Console, go to APIs & Services > Credentials.
@@ -67,22 +66,18 @@ https://github.com/user-attachments/assets/e45f0a48-a3b3-4333-8167-c7db699102e6
     - Google Drive API
     - Google Photos Library API
 
-### 4. Update Environment Variables in Vercel
+### 3. Update Environment Variables in Vercel
 
 Now that you have your Google credentials, update the environment variables in Vercel.
 
 - **Set Up Environment Variables**:
-  - **`NEXT_PUBLIC_CLIENT_ID`**: Your client ID from Google.
+  - **`GOOGLE_CLIENT_ID`**: Your client ID from Google.
 
-    Example: `NEXT_PUBLIC_CLIENT_ID='your-client-id'`
+    Example: `GOOGLE_CLIENT_ID='your-client-id'`
 
-  - **`NEXT_PUBLIC_CLIENT_SECRET`**: Your client secret from Google.
+  - **`GOOGLE_CLIENT_SECRET`**: Your client secret from Google.
 
-    Example: `NEXT_PUBLIC_CLIENT_SECRET='your-client-secret'`
-
-  - **`NEXT_PUBLIC_REDIS_CONNECTION`**: The connection string to your Upstash Redis instance.
-
-    Example: `NEXT_PUBLIC_REDIS_CONNECTION='rediss://default:<password>@<your-upstash-url>:<port>'`
+    Example: `GOOGLE_CLIENT_SECRET='your-client-secret'`
 
 https://github.com/user-attachments/assets/c1c43983-9cc4-4744-94a6-fdcfb7ddfe6c
 
