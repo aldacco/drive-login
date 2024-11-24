@@ -15,9 +15,9 @@ export async function GET(request: NextRequest, response: NextResponse) {
   const { data: token } = await axios.post<Token>(
     "https://oauth2.googleapis.com/token",
     {
-      client_id: clientId ?? (process.env.NEXT_PUBLIC_CLIENT_ID as string),
+      client_id: clientId ?? (process.env.GOOGLE_CLIENT_ID as string),
       client_secret:
-        clientSecret ?? (process.env.NEXT_PUBLIC_CLIENT_SECRET as string),
+        clientSecret ?? (process.env.GOOGLE_CLIENT_SECRET as string),
       grant_type: "authorization_code",
       redirect_uri,
       code,
